@@ -1,0 +1,28 @@
+# [START cloudbuild]
+
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: Build
+  args: [ 'build',
+          '-t',
+          'gcr.io/$PROJECT_ID/ml-prod-demo:$SHORT_SHA',
+          '.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: Build `latest`
+  args: [ 'build',
+          '-t',
+          'gcr.io/$PROJECT_ID/ml-prod-demo:latest',
+          '.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: Push `latest`
+  args: [ 'push',
+          'gcr.io/$PROJECT_ID/ml-prod-demo:latest']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: Push
+  args: [ 'push',
+          'gcr.io/$PROJECT_ID/ml-prod-demo:$SHORT_SHA']
+
+# [END cloudbuild]     
