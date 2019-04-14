@@ -1,6 +1,28 @@
 # [START cloudbuild]
 
 steps:
+
+# [START cloudbuild]
+- name: 'gcr.io/cloud-builders/docker'
+  id: Build
+  args:
+  - 'build'
+  - '-t'
+  - 'gcr.io/$PROJECT_ID/ml-prod-demo:$SHORT_SHA'
+  - '.'
+
+# This step pushes the image to Container Registry
+# The PROJECT_ID and SHORT_SHA variables are automatically
+# replaced by Cloud Build.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Push
+  args:
+  - 'push'
+  - 'gcr.io/$PROJECT_ID/ml-prod-demo:$SHORT_SHA'
+# [END cloudbuild]
+
+
+# [START cloudbuild-deployment]
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Clone env repository
   entrypoint: /bin/sh
@@ -36,4 +58,4 @@ steps:
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
     git push origin candidate
 
-# [END cloudbuild]     
+# [END cloudbuild-deployment]     
