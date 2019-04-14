@@ -24,7 +24,7 @@ def load_model():
 
 @APP.route("/prediction", methods=['GET', 'POST'])
 def prediction():
-    return jsonify("Hello World")
+    return jsonify("Hello Jasper")
 
 
 if __name__ == "__main__":
