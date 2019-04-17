@@ -19,14 +19,6 @@ spec:
         image: gcr.io/ml-prod-demo/ml-prod-demo:ed76814
         ports:
         - containerPort: 5000
-        volumeMounts:
-          - name: myvolume
-            mountPath: "/secrets"
-            readonly: true
-      volumes:
-        - name: myvolume
-          secret:
-            secretName: private-key
 ---
 kind: Service
 apiVersion: v1
