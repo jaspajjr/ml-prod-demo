@@ -25,6 +25,7 @@ steps:
   - '-c'
   - |
     gcloud source repos clone ml-prod-demo-env && \
+    ls -l . && \
     cd ml-prod-demo-env && \
     git checkout candidate && \
     git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
@@ -45,7 +46,6 @@ steps:
   - '-c'
   - |
     set -x && \
-    ls \
     cd ml-prod-demo-env && \
     git add kubernetes.yaml && \
     git commit -m "Deploying image gcr.io/${PROJECT_ID}/ml-prod-demo:${SHORT_SHA}
