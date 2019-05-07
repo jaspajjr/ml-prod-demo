@@ -1,8 +1,6 @@
 # [START cloudbuild]
 
 steps:
-
-# [START cloudbuild]
 - name: 'gcr.io/cloud-builders/docker'
   id: Build
   args:
@@ -11,9 +9,6 @@ steps:
   - 'gcr.io/$PROJECT_ID/ml-prod-demo:$SHORT_SHA'
   - '.'
 
-# This step pushes the image to Container Registry
-# The PROJECT_ID and SHORT_SHA variables are automatically
-# replaced by Cloud Build.
 - name: 'gcr.io/cloud-builders/docker'
   id: Push
   args:
@@ -34,7 +29,6 @@ steps:
     git checkout candidate && \
     git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
 
-# This step generates the new manifest
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Generate manifest
   entrypoint: /bin/sh
