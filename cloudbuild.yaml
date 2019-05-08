@@ -26,7 +26,7 @@ steps:
     gcloud source repos clone ml-prod-demo-env && \
     cd ml-prod-demo-env && \
     git checkout candidate && \
-    git config user.email $(gcloud auth list --filter-status:ACTIVE --format='value(account)')
+    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Generate manifest
