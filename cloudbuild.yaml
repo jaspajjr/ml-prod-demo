@@ -1,34 +1,32 @@
-# [START cloudbuild]
+# [Start cloudbuild.yaml]
 
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  id: Build
+  id: Docker Build
   args:
-  - 'build'
-  - '-t'
-  - 'gcr.io/$PROJECT_ID/ml-prod-demo:$SHORT_SHA'
-  - '.'
+    - 'build'
+    - '-t'
+    - 'gcr.io/$PROJECT_ID/ml-prod-demo:$SHORT_SHA'
+    - '.'
 
 - name: 'gcr.io/cloud-builders/docker'
-  id: Push
+  id: Docker Push
   args:
   - 'push'
   - 'gcr.io/$PROJECT_ID/ml-prod-demo:$SHORT_SHA'
-# [END cloudbuild]
 
+# [Build completed.]
 
-# [START cloudbuild-deployment]
 - name: 'gcr.io/cloud-builders/gcloud'
-  id: Clone env repository
+  id: Clone env repo
   entrypoint: /bin/sh
   args:
   - '-c'
   - |
     gcloud source repos clone ml-prod-demo-env && \
-    ls -l . && \
     cd ml-prod-demo-env && \
     git checkout candidate && \
-    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
+    git config user.email $(gcloud auth list --filter-status:ACTIVE --format='value(account)')
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Generate manifest
@@ -36,8 +34,8 @@ steps:
   args:
   - '-c'
   - |
-     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" kubernetes.yaml.tpl | \
-     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > ml-prod-demo-env/kubernetes.yaml
+    sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" kubernetes.yaml.tpl | \
+    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > ml-prod-demo-env/kubernetes.yaml
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Push manifest
@@ -47,14 +45,10 @@ steps:
   - |
     set -x && \
     cd ml-prod-demo-env && \
-    ls -l . && \
     git add kubernetes.yaml && \
-    git remote && \
-    git status && \
     git commit -m "Deploying image gcr.io/${PROJECT_ID}/ml-prod-demo:${SHORT_SHA}
-    Built from commit ${COMMIT_SHA} of repository ml-prod-demo-app
+    Built from commit ${COMMIT_SHA} of repository prod-demo-app
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
-    ls -l . && \
     git push origin candidate
 
-# [END cloudbuild-deployment]     
+# [Finish cloudbuild.yaml]
