@@ -9,10 +9,10 @@ def client():
     yield client
 
 
-def test_prediction():
+def test_prediction(client):
     post_data = {
     }
 
-    result = client.post('/match', json=post_data)
+    result = client.post('/prediction', json=post_data)
 
     assert result.status_code == 200
