@@ -16,3 +16,4 @@ def test_prediction(client):
     result = client.post('/prediction', json=post_data)
 
     assert result.status_code == 200
+    assert result.get_json()['results'] == "Hello Jasper"
