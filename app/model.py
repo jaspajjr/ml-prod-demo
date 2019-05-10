@@ -4,9 +4,9 @@ import json
 
 
 def download_from_cloud_storage():
-    credentials = service_account.Credentials.from_service_account_file(
-        '/secrets/private-key.json')
     try:
+        credentials = service_account.Credentials.from_service_account_file(
+            '/secrets/private-key.json')
         client = storage.Client(
             project=credentials.project_id,
             credentials=credentials)
