@@ -1,6 +1,6 @@
 from google.cloud import storage
 from google.oauth2 import service_account
-import json
+import pickle
 
 
 def download_from_cloud_storage():
@@ -18,6 +18,7 @@ def download_from_cloud_storage():
 
 
 def load_model():
-    global model
+    global pred_model
     with open('/models/model.pkl', 'rb') as f:
-        model = json.load(f)
+        pred_model = pickle.load(f)
+    return pred_model
