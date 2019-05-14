@@ -8,7 +8,7 @@ logger = structlog.get_logger()
 APP = Flask(__name__)
 
 
-@APP.route("/prediction", methods=['GET', 'POST'])
+@APP.route("/prediction", methods=['POST'])
 def prediction():
     log = logger.new(request_id=str(uuid.uuid4()))
     request_json = request.json
