@@ -12,8 +12,8 @@ def download_from_cloud_storage():
             credentials=credentials)
     except IOError:
         client = storage.Client()
-    bucket = client.get_bucket('ml-prod-models')
-    blob = bucket.get_blob('iris-model_lte_fe34789_20190318141552947255.pkl')
+    bucket = client.get_bucket('ml-in-production-demo')
+    blob = bucket.get_blob('model.pkl')
     blob.download_to_filename('/models/model.pkl')
 
 
