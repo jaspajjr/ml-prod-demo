@@ -12,7 +12,7 @@ APP = Flask(__name__)
 def make_prediction(model, params: dict) -> dict:
     pred_array = np.array([params['v1'], params['v2'], params['v3'],
                            params['v4']])
-    result = model.predict(pred_array.reshape(1, -1))
+    result = model.predict(pred_array.reshape(1, -1))[0]
     print(result)
     return {
         'result': result
