@@ -23,8 +23,8 @@ steps:
   args:
   - '-c'
   - |
-    gcloud source repos clone ml-in-production-env && \
-    cd ml-in-production-env && \
+    gcloud source repos clone ml-prod-demo-env && \
+    cd ml-prod-demo-env && \
     git checkout candidate && \
     git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
 
@@ -35,7 +35,7 @@ steps:
   - '-c'
   - |
     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" kubernetes.yaml.tpl | \
-    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > ml-in-production-env/kubernetes.yaml
+    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > ml-prod-demo-env/kubernetes.yaml
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Push manifest
@@ -44,9 +44,9 @@ steps:
   - '-c'
   - |
     set -x && \
-    cd ml-in-production-env && \
+    cd ml-prod-demo-env && \
     git add kubernetes.yaml && \
-    git commit -m "Deploying image gcr.io/${PROJECT_ID}/ml-in-production:${SHORT_SHA}
+    git commit -m "Deploying image gcr.io/${PROJECT_ID}/ml-prod-demo-env:${SHORT_SHA}
     Built from commit ${COMMIT_SHA} of repository prod-demo-app
     Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
     git push origin candidate
