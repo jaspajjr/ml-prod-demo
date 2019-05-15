@@ -16,10 +16,9 @@ spec:
     spec:
       containers:
       - name: ml-in-production
-        image: gcr.io/ml-in-production/ml-in-production:$SHORT_SHA
+        image: gcr.io/ml-in-production/ml-in-production:COMMIT_SHA
         ports:
         - containerPort: 5000
-        
 ---
 kind: Service
 apiVersion: v1
