@@ -19,6 +19,7 @@ spec:
         image: gcr.io/ml-in-production/ml-in-production:$SHORT_SHA
         ports:
         - containerPort: 5000
+        
 ---
 kind: Service
 apiVersion: v1
