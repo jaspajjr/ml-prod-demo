@@ -32,7 +32,8 @@ def prediction():
 
     return jsonify({
         "results": result,
-        'request_params': request_json
+        'request_params': request_json,
+        "python-nw": "foobar"
         })
 
 
